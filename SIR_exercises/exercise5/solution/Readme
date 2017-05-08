@@ -1,0 +1,13 @@
+we can start with a QS model +200 G , g=45º & phi=30.
+
+cp []/sir/models/hsra11.mod .
+cp []/sir/models/model.mtrol .
+
+echo model.mtrol | []/modelador3.x
+
+We edit guess-plage.mod introducing a stray light factor=20 %
+
+Result: we can reproduce the observed profiles, but
+with a 95% of stray-light
+- cross gradients of B and Vz (as in a canopy)
+- very horizontal fields (noise in Q, U --> gamma~90º)

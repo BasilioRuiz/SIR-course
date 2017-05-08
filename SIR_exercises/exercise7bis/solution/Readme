@@ -1,0 +1,14 @@
+We cp and modify a penumbral model, for instance
+
+cp /home/brc/Boulder/Curso/sir/models/penumjti11.mod .
+
+We build guess.mod (B=1500 H, vz=0, gamma=45, phi=30)
+echo model.mtrol | /home/brc/SIR/SIR2015/modelador3.x
+
+cp guess.mod guess10d75.mod
+echo crisp1.trol | /home/brc/SIR/SIR2015/sir.x
+
+cp guess.mod guess10d71.mod
+echo crisp2.trol | /home/brc/SIR/SIR2015/sir.x
+We obtain 51% Stray, A really strong redshift velocity 
+(supersonic! indeed).

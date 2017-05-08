@@ -1,0 +1,20 @@
+1) In FIRS.pro We restore FIRS_fac1083.save and extract the region from -289.74 to 96.259 nm
+and write the profile using write_profile,ind,x,i,q,u,v
+u=v=i*0
+x is the wavelengt in mA minus the 
+
+
+2) 
+We cp and modify a penumbral model, for instance
+
+cp /home/brc/Boulder/Curso/sir/models/penumjti11.mod .
+
+echo model.mtrol | /home/brc/SIR/SIR2015/modelador3.x
+
+3) We invert I & V using 2 cycles allowing micro and macro
+because we have not the PSF
+
+4) Plotting the two cycles models we can see that we can not
+consider gradients. We should make a better data reduction
+to elliminate frindges and to diminish te noise.
+

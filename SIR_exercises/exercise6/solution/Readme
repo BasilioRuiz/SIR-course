@@ -1,0 +1,26 @@
+We can start with a QS model 1000 G , g=140º (inverse polarity) & phi=30.
+
+cp []/sir/models/hsra11.mod .
+cp []/sir/models/model.mtrol .
+
+echo model.mtrol | []/modelador3.x
+
+SOLUTION 1: One component with strong gradients
+
+If we allow the program enough flexibilty (T(2,<5,<10), B,Vz,gamma(1,<5,<10), phi=2)
+we can reproduce the observed profiles: the inversion has a very strong velocty a deep layers
+with the oppsite polarity (gamma <90) in order to generate an inverrse V profile
+and desplace it to the red (third lobe)
+
+SOLUTION 2: Two components constant stratification
+  cp guess.mos guess1.mod (the same initial model for component 1 but with 50% filling factor)
+  cp model.mtrol model2.mtrol (we initialise a second component red-shifted and with oppsite polarity gamma <90)
+  
+echo model2.mtrol | [path]/modelador3.x
+echo sir2C.trol | [path]/sir.x
+
+component 1: fill=68%, B=1046 Gauss,  gamma=112º,  fi=-23º, Vz=+4.7 km/s
+component 2: fill=32%, B=1968 Gauss,  gamma= 61º,  fi=141º, Vz=+9.6 km/s
+
+If an aditional cycle is include (allowing linear gradients in B & Vz of both
+components) the fit to Stokes V profile is much better. 

@@ -1,0 +1,24 @@
+1) I have inverted TandPgperturb.per using sir_invTPg.trol
+It uses 4 cycles:
+
+AUTOMATIC SELECT. OF NODES?  :0,0,0,1             
+Nodes for temperature 1      :2,2,5,10  
+Nodes for electr. press. 1   :0,2,5,10 
+
+In the first one it determines Pe from hydrostatic equilibrium
+
+2) I have inverted TandPgVzperturb.per using sir_invTPgVz.trol
+AUTOMATIC SELECT. OF NODES?  :0,0,0,1             ! (DEFAULT=0=no; 1=yes)
+Nodes for temperature 1      :2,2,5,10  
+Nodes for electr. press. 1   :0,2,5,10  
+Nodes for LOS velocity 1     :2,2,5,10 
+
+3) To see the sensitivity of the models to T and pressure I have wrote 
+sensitivity.pro
+where I've evaluated the RF to T and Pe. The I transform to relative perturbation
+multiplying by T and Pe respectively
+
+Plotting it you can see that the the RF to Pe has its maximum at around logtau=-0.8
+reaching 1.e-3 of perturbation of Intensity for a 10% of perturbation of the Pe. 
+Then we will need at least a signal to noise ratio better to 1000 to be able to
+find a perturbation of 10% of the Pe. 

@@ -1,0 +1,31 @@
+
+We can evaluate the uncertainties in several ways
+1) From the SIR estimation, writen in .err files
+2) By determining the sensitivity of the line (RF) and applying the sensitivity.pro subroutine.
+
+We evaluate the RF to B, gamma and phi for the resulting model guess4_3.mod 
+using sir5.trol Output RF file 
+ guess4_3.rh      RF for magnetic field strength                                                             
+ guess4_3.rinc    RF for magnetic field inclination                                                           
+ guess4_3.raz     RF for magnetic field azimuth
+ 
+IDL> sensitivity,'inver-darkcores2-105-68.per','guess4_3.per','guess4_3.mod','guess4_3.rh',logtau,uncertainties_h
+IDL> plot,logtau,uncertainties_h
+      
+IDL> sensitivity,'inver-darkcores2-105-68.per','guess4_3.per','guess4_3.mod','guess4_3.rinc',logtau,uncertainties_g
+IDL> plot,logtau,uncertainties_g/!dtor
+      
+IDL> sensitivity,'inver-darkcores2-105-68.per','guess4_3.per','guess4_3.mod','guess4_3.raz',logtau,uncertainties_phi
+IDL> plot,logtau,uncertainties_phi/!dtor
+      
+We can compaire with the formal errors for azimuth evaluated by SIR reading it:
+
+IDL> read_model,'guess4_3.err',logtauerr,terr,perr,vmicerr,berr,verr,gerr,ferr3,zerr,pgerr,ror,vmacerr,fillerr,strayerr
+IDL> oplot,logtau,ferr3,lin=2
+
+You can overplot the formal errors for azimuth evaluated by SIR after cycle 1:
+IDL> read_model,'guess4_1.err',logtauerr,terr,perr,vmicerr,berr,verr,gerr,ferr1,zerr,pgerr,ror,vmacerr,fillerr,strayerr
+IDL> oplot,logtau,ferr1,lin=2
+
+
+      

@@ -1,0 +1,62 @@
+In IDL:
+We restore the data from SPINOR_penumb1565_corrected.sav
+
+;0.1) We copy from  [ ]/SIR/default LINES, THEVENIN, sir.trol
+;0.2) We copy from  [ ]/SIR/models model.mtrol penumjti11.mod
+
+;1)
+restore,'SPINOR_penumb1565_corrected.sav'
+
+;2)
+; We select the spectral windows centred at lines from table LINES
+; I would suggest 
+; for line 10, central wavelength 15621.658d0  --> 186:210
+; for line  9, central wavelength 15631.950d0  --> 240:260
+; for line  8+ 5,6 as blends, central wavelength 15645.020d0 --> 300:358
+; for line  12+ 13 as blends, central wavelength 15662.018d0 --> 385:417
+
+;3)
+; to write the wavelength axis we need to
+  - convert wavelength from nm to A
+  - substract central wavelentgh
+  - transform to mA
+  
+;4) write the profiles using w_profiles  
+
+;5) to write the grid file we will need the first wavelength, the step, and the final wavelength for each line
+
+All this (steps for 1 to 5) are done in the procedure SPINOR_penumbra
+
+
+6) For preparing the initial model we edit model.mtrol in order 
+   - to extend the optical depth grid until 1.2, -4.8 with step 0.1
+   - to write a constant B= 1500 G
+   - to write a constant Vz= 1.e5 cm/s
+   
+   Then
+   echo model.mtrol | []/modelador3.x
+   
+   
+7) We edit sir.trol (I have named it:   invert_SPINOR.trol)
+   2cycles
+   with nodes
+   2,5 for T
+   1 for mic
+   1,2 for B, vz, gamma, phi
+   1 for mac
+   and I have changed the Tolerance for SVD: 1.e-4,1.e-3 
+   
+   Then echo invert_SPINOR.trol | []/SIR/program/sir.x
+
+
+Result: 
+   - We have got a not very good fit for Stokes I: I think that we have possible some callibration issues
+   and fringes
+   - We have got a very high micro (5.1 Km/s) and macro (4.86 Km/s) possible explained because we have not introduce the PSF
+   - We got a linear B going from 1580 (at deep layers aroungd tau=1) to 1000 G (at higher ones, around tau= 0.01)
+   -        a linear Vz      from 0.3 km/s (at tau=1) to -0.8 km/s (blueshifted, at tau=0.01)
+   -        a linear gamma   from 65 degrees (at tau=1) to 48 (at tau=0.01)
+   -        a linea azimuth  from -18 degrees (at tau=1) to -91 (at tau=0.01)
+
+
+

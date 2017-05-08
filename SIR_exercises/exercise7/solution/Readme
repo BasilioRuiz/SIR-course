@@ -1,0 +1,16 @@
+1) En IBIS.pro we restore de IBIS_penumb6173.sav data and include 
+points every 10 mA because the original stepsize is variable:
+30 mA for the first points and 20 mA later.
+You can use the procedure introduce_points that write -1 for the new
+included points in the spectrum.
+We write the grid file.
+
+2) we cp and modify penumjti11.mod (using modelador3.for instance or
+using read_model and then write_model) to put B, gamma, and fi to 1500 G,
+45, and 30 degrees and Vz = 1 km/s
+
+3) we invert
+echo IBIS.trol | /home/brc/SIR/program/sir.x
+
+4) check the resulting profiles using the procedure checking
+checking,'IBIS_penumb6173.per','penumbra_2.per'

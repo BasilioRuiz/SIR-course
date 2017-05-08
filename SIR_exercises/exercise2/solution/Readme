@@ -1,0 +1,34 @@
+A penumbra model is more suitable, although you can start from
+a different model. 
+
+cp /sir_distr/model/penumjti11.mod guess.mod
+cp ../../exercise1/solution/guess1.mtrol .
+we edit guess1.mtrol in order to transform penumjti11.mod including B, V_LOS, gamma --> guess.mod
+
+cp guess1.mod guess2.mod ; because we are going to do 4 inversions
+cp guess1.mod guess3.mod
+cp guess1.mod guess4.mod
+
+cp sir_distr/default/HINODE_SP_in* .
+
+cp ../../exercise1/solution/sir.trol .
+
+We edit sir.trol to define 3 inversions
+sir1.trol : 2 cycles: nodes T(2,5), B(1,2),v(1,2), g(1,1), phi(1,1),mac(1,1)
+           after 1st cycle (few T nodes, no gradients B and Vlos) S/N=37  Bad fit
+           final S/N= 166, mac=0.49
+
+sir2.trol : 2 cycles: nodes T(2,10), B(1,10),v(1,10), g(1,1), phi(1,1),mac(1,1)
+           final S/N= 128, mac=0.16
+
+sir3.trol : 3 cycles: nodes T(2,3,<10), B(1,2,<10),v(1,2,<10), g(1,2,<5), phi(1,2,<5),mac(1,1,1)
+           final S/N= 217, mac=0.63          
+
+sir4.trol : 3 cycles: equal to sir3.trol except including spectral PSF 
+           final S/N= 217, mac=0.41  lower LOS velocity gradient, and smoother Temperature!
+           
+
+
+
+
+      

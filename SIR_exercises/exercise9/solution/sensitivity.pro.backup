@@ -1,0 +1,41 @@
+@ read_RF_nomag
+pro sensitivity   
+
+spawn,'echo RF.trol | /home/brc/SIR/program/sir.x'  ;writing the RF to T & Pg from guess_4.mod
+
+read_RF_nomag,'guess_4.rt',rt,ntau,nlam             ; (1104, 73) 1104 wavelengths and 73 optical deptss
+read_RF_nomag,'guess_4.rpe',rpe,ntau,nlam
+
+read_model,'guess_4.mod',logtau,T,pe                     ; getting the logtau grid, T & Pe 
+
+; I evaluate the maximum sensitivity for every lambda. As we are interested of the sensitivity to relative 
+; perturpation we must multiply the RF for the parameter
+RTmax=fltarr(ntau)
+RPemax=fltarr(ntau)
+for itau=0,ntau-1 do RTmax(itau)=max(abs(rt(*,itau)))*T(itau)
+for itau=0,ntau-1 do Rpemax(itau)=max(abs(rpe(*,itau)))*pe(itau)
+
+; Then, a perturbation of a 10% in Pe produce a maximum change of around 1.e-4 in the I profile
+; We will need at a signal to noise ratio better to 1.e4 in order to find the Pe
+
+cwpal
+!p.multi=[0,1,2]
+
+; The reponse for a 10% perturbation would be
+plot,logtau,0.1*Rtmax
+oplot,logtau,10*0.1*Rpemax,col=2  ;I'm multiplying Rpe by 10 to visualize
+ver,-0.8,lin=2,col=2
+
+;the maximum of Rpe it is around logtau=-0.8
+
+read_model,'TandPgVzperturb.mod',logtau,Treal,Pereal,mic,h,vzreal,g,fi,zreal,pgreal,rhoreal
+read_model,'guess_4.mod',logtau,Tinv,Pinv,mic,h,vzinv,g,fi,zinv,pginv,rhoinv
+
+plot,logtau,pgreal  
+oplot,logtau,pginv,col=2
+ver,-0.8,lin=2,col=2
+
+stop
+return
+end
+
