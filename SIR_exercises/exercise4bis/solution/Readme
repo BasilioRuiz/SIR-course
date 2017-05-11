@@ -1,0 +1,17 @@
+Starting from a model with b=1500,  Vz=0.1 km/s
+To build it we can copy
+for instance hsra11 
+and modify it with modelador3.x (or reading with IDL)
+
+cp []/sir/models/hsra11.mod .
+cp []/sir/models/model.mtrol .
+
+echo model.mtrol | []/modelador3.x
+
+We edit guess-plage.mod introducing a stray light factor=10 %
+
+Result: Vmac= 2.17 km/s. Vmic ~ 0. Stray=78.7%
+      Cross gradients of B and Vlos (B increasing, Vlos decreasing with height)
+      typical from a canopy (these gradients are needed to reproduce the assymmetric V shape) 
+
+
