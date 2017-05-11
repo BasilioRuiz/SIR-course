@@ -1,2 +1,0 @@
-# SIR-course
-# SIR-course
