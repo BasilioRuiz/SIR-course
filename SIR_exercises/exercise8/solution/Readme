@@ -1,0 +1,19 @@
+1) We have the profiles for the 5 points at coordinates 
+ 
+firs_px1=438 & firs_py1=130
+firs_px2=388 & firs_py2=175
+firs_px3=400 & firs_py3=206
+firs_px4=272 & firs_py4=200
+firs_px5=460 & firs_py5=242
+
+
+2) We copy and modify a penumbral model, for instance
+
+cp /home/brc/Boulder/Curso/sir/models/penumjti11.mod .
+
+echo model.mtrol | []/modelador3.x
+
+3) We invert using 2 cycles allowing micro and macro
+echo FIRS1.trol | []/sir.x
+echo FIRS2.trol | []/sir.x
+etc
