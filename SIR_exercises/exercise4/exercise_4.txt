@@ -1,0 +1,132 @@
+mkdir Ex4
+cd Ex4
+
+;In the terminal 
+cp $_default/THEVENIN .
+cp $_default/sir.trol .
+cp $_default/malla.grid .
+cp $_models/penumjti11.mod .
+cp $_exercise4/* .
+
+1) We restore in IDL the file with the SPINOR data
+IDL> restore,'SPINOR_penumb1565_corrected.sav'
+IDL> help
+
+;We can see we have (among others) the data 
+SPINOR_I           DOUBLE  = Array[511]                                                                                                 
+SPINOR_Q           DOUBLE  = Array[511]                                                                                                                                                                                          SPINOR_Q        DOUBLE    = Array[511]                                                                                                 
+SPINOR_U           DOUBLE  = Array[511]                                                                                                 
+SPINOR_V           DOUBLE  = Array[511]    
+
+;and the wavelenth array 
+SPINOR_WAVELENGTH  DOUBLE = Array[511]
+
+;2) we can plot the spectra
+IDL> plot,SPINOR_WAVELENGTH,SPINOR_I ,/ynoz
+
+;the table LINES (given) is:
+
+  5=FE 1 15648.515   1.0  5.426  -0.669  7D 1.0- 7D 1.0  0.229 2.7289e-14
+  6=FE 1 15652.874   1.0  6.246  -0.095  7D 5.0- 7D 4.0  0.330 3.9967e-14
+  7=FE 1 15647.410   2.0  6.329  -0.950  7D 1.0- 5P 2.0  0. 0.
+  8=FE 1 15645.020   1.0  6.311  -0.45   7P 2.0- 7P 2.0  0.291 3.3581e-14
+  9=FE 1 15631.950   1.0  5.3515  .15    7D 4.0- 7D 4.0  0. 0.
+ 10=FE 1 15621.658   1.0  5.5394  .3     5D 4.0- 5D 4.0  0. 0.
+ 11=FE 1 15588.264   1.0  6.366   .2     5D 4.0- 5D 4.0  0. 0.
+ 12=FE 1 15662.018   1.0  5.829   0.19   5F 5.0- 5F 4.0  0.24 3.358092e-14
+ 13=FE 1 15665.245   1.0  5.978  -0.42   5F 1.0- 5D 1.0  0.23 3.590360e-14
+
+; We select the spectral windows centred at lines this table 
+; I would suggest 
+; for line 10, central wavelength 15621.658d0  --> 186:210
+; for line  9, central wavelength 15631.950d0  --> 240:260
+; for line  8+ 5,6 as blends, central wavelength 15645.020d0 --> 300:358
+; for line  12+ 13 as blends, central wavelength 15662.018d0 --> 385:417
+
+;To check it we can overplot some vertical lines defining the intervals
+;The idl cwpal color table is 1:white/black, 2:red, 3:blue, 4:green, 5: yellow, 6: orange, etc
+
+IDL> cwpal
+IDL> ver,SPINOR_WAVELENGTH(186),col=1 & ver,SPINOR_WAVELENGTH(210),col=1 
+IDL> ver,SPINOR_WAVELENGTH(240),col=2 & ver,SPINOR_WAVELENGTH(260),col=2 
+IDL> ver,SPINOR_WAVELENGTH(300),col=3 & ver,SPINOR_WAVELENGTH(358),col=3
+IDL> ver,SPINOR_WAVELENGTH(385),col=4 & ver,SPINOR_WAVELENGTH(417),col=4
+
+
+;3)
+; to write the wavelength axis we need to
+;   - convert wavelength from nm to A
+;   - substract central wavelentgh
+;   - transform to mA
+  
+IDL> w2=(spinor_wavelength(186:210)*10d0-15621.658d0)*1000.       ;line 10  --> transform nm to A and then to mA
+IDL> in2=intarr(n_elements(w2))+10
+IDL> si2=spinor_i(186:210) & sq2=spinor_q(186:210) & su2=spinor_u(186:210) & sv2=spinor_v(186:210)
+
+IDL> w3=(spinor_wavelength(240:260)*10d0-15631.950d0)*1000        ;line 9
+IDL> in3=intarr(n_elements(w3))+9
+IDL> si3=spinor_i(240:260) & sq3=spinor_q(240:260) & su3=spinor_u(240:260) & sv3=spinor_v(240:260)
+
+IDL> w4=(spinor_wavelength(300:358)*10d0-15645.020d0)*1000.       ;line 8 (+ 5,6 as blends)
+IDL> in4=intarr(n_elements(w4))+8
+IDL> si4=spinor_i(300:358) & sq4=spinor_q(300:358) & su4=spinor_u(300:358) & sv4=spinor_v(300:358)
+
+IDL> w5=(spinor_wavelength(385:417)*10d0-15662.018d0)*1000.       ;line 12 + 13
+IDL> in5=intarr(n_elements(w5))+12
+IDL> si5=spinor_i(385:417) & sq5=spinor_q(385:417) & su5=spinor_u(385:417) & sv5=spinor_v(385:417)
+
+IDL> in=[in2,in3,in4,in5] & w=[w2,w3,w4,w5]
+IDL> si=[si2,si3,si4,si5] & sq=[sq2,sq3,sq4,sq5] & su=[su2,su3,su4,su5] & sv=[sv2,sv3,sv4,sv5]
+
+; and write the profiles
+IDL> write_profiles,'SPINOR_penumb1565.per',in,w,si,sq,su,sv
+
+;to write the grid file we will need the first wavelength, the step, and the final wavelength for each line
+
+; to write the grid file we need the strating and ending wavelength and the step 
+IDL> print,'line    10 : from',w2(0),' step =', (w2(n_elements(w2)-1)-w2(0))/float(n_elements(w2)-1) ,' to ',w2(n_elements(w2)-1)
+IDL> print,'line     9 : from',w3(0),' step =', (w3(n_elements(w3)-1)-w3(0))/float(n_elements(w3)-1) ,' to ',w3(n_elements(w3)-1)
+IDL> print,'line 8,5,6 : from',w4(0),' step =', (w4(n_elements(w4)-1)-w4(0))/float(n_elements(w4)-1) ,' to ',w4(n_elements(w4)-1)
+IDL> print,'line 12,13 : from',w5(0),' step =', (w5(n_elements(w5)-1)-w5(0))/float(n_elements(w5)-1) ,' to ',w5(n_elements(w5)-1)
+
+; in the terminal we edit malla.grid (I have done that in malla.grid : cp /home/brc/Curso/BRC/SIR_exercises/exercise4/solution/wavelength.grid malla.grid)
+
+;To run the inversion we can start from a penumbral model (penumjti11.mod)
+; but as the B in this model goes to 0 we modify id
+
+IDL> read_model,'penumjti11.mod',logtau,t,p,vmic,b,v,g,f,z,pg,ro,vmac,fill,stray
+IDL> b=b*0.+1500. & v=v*0+1.e5 & g=g*0.+60.
+IDL> write_model,'guess.mod',logtau,t,p,vmic,b,v,g,f,z,pg,ro,vmac,fill,stray
+
+; we edit sir.trol (I have done that: cp /home/brc/Curso/BRC/SIR_exercises/exercise4/solution/invert*.trol sir.trol
+
+echo sir.trol | $_program/sir.x
+
+; and we check
+IDL> graphics2
+
+; as Q & U are bad fit, and also the wings of I, I would increase the 
+; weight of Q U and V and save in sir2.trol
+
+Number of cycles          (*):2                    ! (0=synthesis)
+Observed profiles         (*):SPINOR_penumb1565.per ! 
+Stray light file             :                      ! (none=no stray light contam)
+PSF file                     :                      ! (none=no convolution with PSF)
+Wavelength grid file      (s):malla.grid       ! (none=automatic selection)
+Atomic parameters file       :LINES                 ! (none=DEFAULT LINES file)
+Abundances file              :THEVENIN              ! (none=DEFAULT ABUNDANCES file)
+Initial guess model 1     (*):guess2.mod        ! 
+Initial guess model 2        : 
+Weight for Stokes I          :1                  ! (DEFAULT=1; 0=not inverted)
+Weight for Stokes Q          :10                ! (DEFAULT=1; 0=not inverted)
+Weight for Stokes U          :10                  ! (DEFAULT=1; 0=not inverted)
+Weight for Stokes V          :10            ! (DEFAULT=1; 0=not inverted)
+AUTOMATIC SELECT. OF NODES?  :                  ! (DEFAULT=0=no; 1=yes)
+
+;We cp guess.mod to guess2.mod to compare
+
+cp guess.mod guess2.mod
+echo sir2.trol | $_program/sir.x
+
+IDL> graphics2
+Now we were be able to fit Q and U
