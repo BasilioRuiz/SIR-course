@@ -1,0 +1,97 @@
+I have created the directory $HOME/SIRstuff to download all the material and to solve the exercises
+
+1) downloading the program
+
+go to https://github.com/BasilioRuiz/SIR-code
+
+download SIR-code_master.zip in $HOME/SIRstuff
+
+> cd SIR-code-master
+
+> ls
+      Barklem  compiling_running.txt  default  idl  manual  models  Readme  SIR2017.tar.gz  test
+
+> mkdir program
+
+> mv SIR2017.tar.gz ./program
+
+> cd program
+
+> gunzip *.gz
+
+> tar -xvf *.tar
+
+> make fc=gfortran sir.x
+
+> make fc=gfortran modelador3.x
+
+> cd ..
+
+2) downloading exercises
+
+https://github.com/BasilioRuiz/SIR-course
+
+> ls
+  SIR-code-master  SIR-course-master
+  
+> cd SIR-course-master
+>  ls 
+   Readme  SIR__course.pdf  SIR__course.pptx  SIR_exercises
+   
+> cd ..
+
+
+3) We can define paths in our ".cshrc" file (if csh or tcsh) adding the lines:
+
+setenv _program      $HOME/SIRstuff/SIR-code-master/program
+setenv _default      $HOME/SIRstuff/SIR-code-master/default
+setenv _idl          $HOME/SIRstuff/SIR-code-master/idl
+setenv _models       $HOME/SIRstuff/SIR-code-master/models
+setenv _exercise1    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise1
+setenv _exercise2    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise2
+setenv _exercise3    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise3
+setenv _exercise4    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise4
+setenv _exercise4bis $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise4bis
+setenv _exercise5    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise5
+setenv _exercise6    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise6
+setenv _exercise7    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise7
+setenv _exercise7bis $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise7bis
+setenv _exercise8    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise8
+setenv _exercise9    $HOME/SIRstuff/SIR-course-master/SIR_exercises/exercise9
+
+> source .cshrc
+
+4) 
+In order to change the IDL paths I look for the idl start up file in .cshrc 
+
+more .cshrc
+   in my case it says: 
+   setenv IDL_STARTUP   $HOME/idl.startup
+
+   Then we edit "idl.startup" to include the new path:
+   
+   kile $HOME/idl.startup
+   and include the line
+   !path = !path + ":" + expand_path("+$HOME/SIRstuff/SIR-code-master/_idl")
+
+In order to check the inversion results it is very usefule the idl tool graphics2.
+If you run it from idl, you will obtain an error message, because graphics2 it is 
+looking for the file "scales" in your home $HOME/bin/scales. 
+You can move the file scales (that you can find in $HOME/SIRstuff/SIR-code-master/idl/scales)
+to your $HOME/bin or well you can edit graphics2.pro. You will need to edit two lines: the 418 and 1595
+   
+418    openr,1,'$HOME/bin/scales'  
+  change it by 
+       openr,1,'$HOME/SIRstuff/SIR-code-master/idl/scales'
+  
+  and also the 1595
+  
+1595   spawn,'emacs $HOME/bin/scales'
+  change it by 
+      spawn,'emacs $HOME/SIRstuff/SIR-code-master/idl/scales'
+      
+      
+5) ***  It is a good idea to have 2 consoles in the same directory one for idl and other as a terminal
+  
+      
+   
