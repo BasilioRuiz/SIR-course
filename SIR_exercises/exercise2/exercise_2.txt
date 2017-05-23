@@ -9,17 +9,15 @@
    guess.mod  inver-darkcores2-105-68.per  Readme               sir.trol  wavelength.grid
    hsra.mod   LINES                        SIR__exercises2.pdf  THEVENIN
 
+   
+   
+*******************************************************
 A penumbra model is more suitable, although you can start from
 a different model. 
 
 cp $_models/penumjti11.mod guess.mod
 
 In the idl-console we modify guess.mod
-
-magn. field   (a+b*h+c*logtau) a,b,c?:500,0,0        !give a,b,c (default 0,1,0)
-LOS velocity  (a+b*V+c*logtau) a,b,c?:1.e5,0,0       !give a,b,c (default 0,1,0)
-gamma        (a+b*gam+c*logtau)a,b,c?:15,0,0  
-
 
 IDL> read_model,'guess.mod',logtau,t,p,vmic,b,v,g,f,z,pg,ro,vmac,fill,stray
 IDL> b=b*0+500. & v=v*0+1.e5 & g=g*0+15.
@@ -35,7 +33,9 @@ echo sir1.trol | $_program/sir.x
            after 1st cycle (few T nodes, no gradients B and Vlos) S/N=37  Bad fit
            after 2nd cycle  final S/N= 166, mac=0.49
            
-IDL> graphics2	    
+IDL> graphics2	   
+
+*******************************************************************************
 
 We want to do more inversions, so we will cp guess.mod in other 3 files
 and will cp sir.trol in other 3
