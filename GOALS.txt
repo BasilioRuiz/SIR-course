@@ -1,0 +1,42 @@
+The main goals fo these esercises are: being familiar with SIR code,
+be able to invert data from different instruments (HINODE, CRISP, SPINOR,
+IBIS, FIRS) and to deal with different real problems as: the presence of
+noise, strong assymetries, several components, gradient determination, 
+selection of number of nodes, low spectral resolution. Additionally we 
+will address the error and uncertainties determination and the determination 
+of sensitivity to different physical quantities. 
+
+We will atack these question in a sequence of increasing complexity exercises, 
+namely:
+
+   Ex 1: Testing and taking first contact with synthesis, inversion and result
+         visualization.
+
+   Ex 2: HINODE data. Analysis of strong and symmetric signals. How many nodes
+         should be used? Is it always better to use many nodes? Weights of Q, U & V
+
+   Ex 3: Error bars and uncertainties determination.
+   
+   Ex 4: SPINOR data. How to select lines in a large spectral region.
+         Using macro- and micro-turbulence. Gradients determination.
+         
+   Ex 4 bis: Optional. Strong asymmetries and use of stray-light.
+   
+   Ex 5: HINODE data.  High signal to noise profiles. Extremely weak linear polarization 
+         signal but large asymmetries.
+         
+   Ex 6: Stokes V with 3 lobes. One versus 2 components inversions.
+   
+   Ex 7: IBIS profiles: high spatial resolution bad modest spectral sampling.
+         Introducing points in the spectra that will not be consider in the chi^2.
+         
+   Ex 7bis: Optional, because the topic was covered by ex 7 but with CRISP data
+            Strong asymmetric profiles and use of stray light.
+            Very high spatial resolution bad poor spectral resolution.
+           
+   Ex 8: FIRS profiles. How reliable are the obtained gradients in different
+         solar scenarios?
+         
+   Ex 9: Inversion of gas pressures. Sensitivity to gas pressure. How to evaluate
+         the Response functions (RF) to Pg from the RF to temperature and electronic 
+         pressure.
