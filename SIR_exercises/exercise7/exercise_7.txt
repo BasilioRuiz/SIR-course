@@ -4,16 +4,16 @@ cd Ex7
 ;In the terminal 
 cp $_exercise7/* .
 
-1) in IDL
 
-
-
-1) En IBIS.pro we restore de IBIS_penumb6173.sav data and include 
+1) En IBIS.pro we restore de IBIS_penumb6173.sav data and we will include 
 points every 10 mA because the original stepsize is variable:
 30 mA for the first points and 20 mA later.
-You can use the procedure introduce_points that write -1 for the new
+
+You can use the IDL procedure "introduce_points" that write -1 for the new
 included points in the spectrum.
-We write the grid file.
+
+I wrote IBIS.pro
+Then I wrote the grid file
 
 2) we cp and modify penumjti11.mod (using modelador3.for instance or
 using read_model and then write_model) to put B, gamma, and fi to 1500 G,
@@ -27,15 +27,29 @@ using 3 cycles
 checking,'IBIS_penumb6173.per','penumbra_3.per'
 
 
+Let's introduce the stay-ligth
+cp IBIS.trol IBIS2.trol
+cp penumbra.mod penumbra2.mod
+and edit penumbra2.mod to write stray factor = 30
 
+echo IBIS2.trol | /home/brc/SIR/program/sir.x
+checking2,'IBIS_penumb6173.per','penumbra_3.per','penumbra2_3.per'
 
+we obtain nearly the same result, with a final stray-light of 14.3% and mac=1.25
 
+What happens if we introduce the spectral PSF
+Kevin Reardon sent me IBIS.instrumental.profile.filt_6173.sav
+I have edited that to change the x axys in mA respect to the centerline --> 
+IBIS_PROFILE_6173.psf
 
+cp IBIS2.trol IBIS3.trol
+cp penumbra2.mod penumbra3.mod
 
+echo IBIS3.trol | /home/brc/SIR/program/sir.x
 
-
-
-
+The solution is nearly the same: we have now S/N=1.54E+02 instead of 1.49E+02
+                                         vmac=0.96 km/s  instead of 1.25 km/s
+                                         stray=23%         instead of 14%
 
 
 
