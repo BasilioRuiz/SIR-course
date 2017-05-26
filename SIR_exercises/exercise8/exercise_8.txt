@@ -31,18 +31,10 @@ IDL> read_model,'penumjti11.mod',logtau,t,pe,mic,b,vz,g,f,z,pg,rho,mac,fill,stra
 IDL> b=b*0.+1500. & vz=vz*0. & g=g*0.+45 & f=f*0.+30.
 IDL> write_model,'guess1.mod',logtau,t,pe,mic,b,vz,g,f,z,pg,rho,mac,fill,stray
 
-As we want to do several inversions we make some copies of guess1.mod
-cp guess1.mod guess2.mod
-cp guess1.mod guess3.mod
-cp guess1.mod guess4.mod
-cp guess1.mod guess5.mod
-
-
 3) We invert using 2 cycles allowing micro and macro
-We edit FIRS1.trol  (cp /home/brc/Curso/BRC/SIR_exercises/exercise8/solution/*.trol .
+We edit FIRS.trol  (cp /home/brc/Curso/BRC/SIR_exercises/exercise8/solution/*.trol .
 cp $_default/sir.trol .
 
-kwrite sir.trol --> FIRS1.trol
 
 Number of cycles          (*):2                 ! (0=synthesis)
 Observed profiles         (*):FIRS1.per ! 
@@ -68,15 +60,7 @@ Nodes for phi 1              :1,2
 Invert macroturbulence 1?    :1                ! (0 or blank=no, 1=yes)
 
 
-and then we copy this in other 4 files
-cp FIRS1.mod FIRS2.mod and then modify the input model and output profile name
-cp FIRS1.mod FIRS3.mod
-cp FIRS1.mod FIRS4.mod
-cp FIRS1.mod FIRS5.mod
-
-echo FIRS1.trol | $_program/sir.x
-echo FIRS2.trol | $_program/sir.x
-etc
+As we can invert several profiles we can make an IDL procedure: invert.pro 
 
 
 we check the results
